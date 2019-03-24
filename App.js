@@ -2,18 +2,20 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, StatusBar} from 'react-native';
 import Weather from './Weather.js';
 
+const API_KEY = "59a89227e3f85a178fbd417ebefa65b2";
+
 export default class App extends Component {
   state = {
     isLoaded : false,
-    error : null
+    error : null,
+    temperature : null,
+    name : null 
   };
   componentDidMount(){
     //현재 디바이스의 위치 정보를 가져오는 구문 
     navigator.geolocation.getCurrentPosition(
       position => {
-        this.setState({
-          isLoaded : true
-        });
+        this._getWeather(position.coords.latitude , position.coords.longitude)
       },
       error => {
         this.setState({
@@ -21,7 +23,19 @@ export default class App extends Component {
         }); 
       }
     )
-  }
+  };
+  _getWeather = (lat , long ) => {
+    fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&APPID=${API_KEY}`)
+      .then( response => response.json())
+      .then( json => {
+        this.setState({
+          temperature : json.main.temp,
+          name : json.weather[0].main,
+          isLoaded : true
+        });
+      })
+      .catch( error => console.log(error));
+  };
   render() {
     const { isLoaded, error } = this.state;
 

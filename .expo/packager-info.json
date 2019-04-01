@@ -1,10 +1,9 @@
 {
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://h2-yds.anonymous.react-native-todo.exp.direct",
+  "packagerNgrokUrl": "https://packager.h2-yds.anonymous.react-native-todo.exp.direct",
+  "ngrokPid": 14652,
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "webpackServerPort": null
+  "packagerPort": 19001,
+  "packagerPid": 14436
 }

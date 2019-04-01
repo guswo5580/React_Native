@@ -37,7 +37,8 @@ export default class App extends React.Component {
           placeholderTextColor={"#999"}
           returnKeyType={"done"}
           autoCorrect={false}
-          onSubmitEditing={this._addToDo}/>
+          onSubmitEditing={this._addToDo}
+          underlineColorAndroid={"transparent"}/>
 
         <ScrollView contentContainerStyle={styles.Todos}>
           {Object.values(toDos).reverse().map(toDo => 
@@ -65,8 +66,9 @@ export default class App extends React.Component {
       const parsedToDos = JSON.parse(toDos);
       this.setState({
         loadedTodos : true,
-        toDos : parsedToDos
+        toDos : parsedToDos || {}
       }); 
+      //app이 처음 시작될 때는 정보가 없으므로 null을 반환
     } catch(err) {
       console.error(err);
     }

@@ -1,3 +1,4 @@
+// https://docs.expo.io/versions/v32.0.0/distribution/uploading-apps/ 배포 방법
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet,
         Dimensions, TextInput } from 'react-native';
@@ -45,6 +46,7 @@ export default class Todo extends React.Component{
                             onChangeText={this._controllInput}
                             returnKeyType={"done"}
                             onBlur={this._finishEditing}
+                            underlineColorAndroid={"transparent"}
                             />
                     ) : (
                         <Text style={[

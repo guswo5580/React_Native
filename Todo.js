@@ -6,21 +6,28 @@ import PropTypes from 'prop-types';
 
 const { width , height } = Dimensions.get("window");
 
+
 export default class Todo extends React.Component{
+
     // Todo.js 에서 state로 설정할 요소와 props로 설정할 요소에 대한 constructor 표현
     constructor(props) {
         super(props);
+
         this.state = {
             isEditing : false,
+            //변환 여부 저장 변수
+            
             todoValue : ""
+            //list의 text 내용 
         }
     }
     //props 정보에 대한 정의
     static PropTypes = {
         text : PropTypes.string.isRequired,
         isCompleted : PropTypes.bool.isRequired,
-        deleteToDo : PropTypes.func.isRequired,
         id : PropTypes.string.isRequired,
+
+        deleteToDo : PropTypes.func.isRequired,
         uncompleteToDo : PropTypes.func.isRequired,
         completeToDo : PropTypes.func.isRequired,
         updateToDo : PropTypes.func.isRequired
@@ -31,16 +38,25 @@ export default class Todo extends React.Component{
         return (
             <View style={styles.container}>
                 <View style={styles.column}>
+                    {/* click을 통한 이벤트 전달을 해야할 때의 요소 */}
                     <TouchableOpacity onPress={this._toggleComplete}>
                         <View style={[
                             styles.circle,
-                            isCompleted ? styles.completedCircle : styles.uncompletedCircle
+                            isCompleted ? 
+                            styles.completedCircle : styles.uncompletedCircle
                             ]}/>
+                        {/* 배열 형태로 복수 style 적용 가능 */}
                     </TouchableOpacity>
+
+                    {/* 삼항을 이용 태그를 나열 */}
                     {isEditing ? (
                         <TextInput
-                            style={[styles.input, styles.text,
-                                isCompleted ? styles.completedText  : styles.uncompletedText]} 
+                            style={[
+                                styles.input, 
+                                styles.text,
+                                isCompleted ? 
+                                styles.completedText  : styles.uncompletedText
+                            ]} 
                             value={ todoValue }
                             multiline={true}
                             onChangeText={this._controllInput}
@@ -51,8 +67,10 @@ export default class Todo extends React.Component{
                     ) : (
                         <Text style={[
                             styles.text,
-                            isCompleted ? styles.completedText  : styles.uncompletedText
-                        ]}>{ text }
+                            isCompleted ? 
+                            styles.completedText  : styles.uncompletedText
+                            ]}>
+                        { text }
                         </Text>
                     )}
                 </View>
@@ -75,7 +93,9 @@ export default class Todo extends React.Component{
                                     <Text style={styles.actionText}>✏️</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPressOut={() => deleteToDo(id)}>
+                            <TouchableOpacity onPressOut={(event) => {
+                                event.stopPropagation;
+                                deleteToDo(id)}}>
                                 <View style={styles.actionContainer}>
                                     <Text style={styles.actionText}>❌</Text>
                                 </View>
@@ -85,7 +105,8 @@ export default class Todo extends React.Component{
             </View>
         );
     }
-    _toggleComplete = () => {
+    _toggleComplete = (event) => {
+        event.stopPropagation();
         const { isCompleted, completeToDo, uncompleteToDo , id } = this.props;
         if(isCompleted) {
             uncompleteToDo(id);
@@ -93,24 +114,30 @@ export default class Todo extends React.Component{
             completeToDo(id);
         }
     };
-    _startEditing = () => {
+
+    _startEditing = (event) => {
+        event.stopPropagation();
         this.setState({
             isEditing : true,
         });
     };
-    _finishEditing = () => {
+    _finishEditing = (event) => {
+        event.stopPropagation();
         const { todoValue } = this.state;
         const { id, updateToDo } = this.props;
+
         updateToDo(id, todoValue);
         this.setState({
             isEditing : false
         });
     };
+
     _controllInput = (text) => {
         this.setState({
             todoValue : text
         });
     };
+    
 }
 
 const styles = StyleSheet.create({

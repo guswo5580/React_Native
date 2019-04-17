@@ -1,1 +1,1 @@
-This is my first app using react native 
+# Simple weather app using React Native  
